@@ -170,25 +170,40 @@
             <div class="flex-1 overflow-y-auto p-6 space-y-4">
                 <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm space-y-2">
                     <label class="text-xs font-bold text-gray-400 uppercase tracking-wide" id="lbl-headline">Main Headline</label>
-                    <input type="text" id="editor-headline" oninput="saveCurrentArticleChanges()" class="w-full text-2xl font-bold text-gray-900 border-b border-gray-200 focus:border-red-600 focus:outline-none pb-2 font-serif" placeholder="Enter main headline...">
+                    <input type="text" id="editor-headline" class="w-full text-2xl font-bold text-gray-900 border-b border-gray-200 focus:border-red-600 focus:outline-none pb-2 font-serif" placeholder="Enter main headline...">
                     
                     <label class="text-xs font-bold text-gray-400 uppercase tracking-wide block pt-2" id="lbl-subheadline">Sub Headline</label>
-                    <input type="text" id="editor-subheadline" oninput="saveCurrentArticleChanges()" class="w-full text-base font-semibold text-gray-600 border-b border-gray-100 focus:border-red-600 focus:outline-none pb-1" placeholder="Enter sub headline...">
+                    <input type="text" id="editor-subheadline" class="w-full text-base font-semibold text-gray-600 border-b border-gray-100 focus:border-red-600 focus:outline-none pb-1" placeholder="Enter sub headline...">
                 </div>
 
                 <!-- Rich Text Editor -->
                 <div class="bg-white rounded-xl border border-gray-200 shadow-sm flex flex-col h-[400px]">
-                    <div class="border-b border-gray-200 p-2 bg-gray-50 flex items-center gap-2 flex-wrap text-sm text-gray-600">
-                        <button class="p-1.5 hover:bg-gray-200 rounded font-bold" onclick="execCmd('bold')"><b>B</b></button>
-                        <button class="p-1.5 hover:bg-gray-200 rounded italic" onclick="execCmd('italic')"><i>I</i></button>
-                        <button class="p-1.5 hover:bg-gray-200 rounded underline" onclick="execCmd('underline')"><u>U</u></button>
-                        <div class="h-4 w-px bg-gray-300"></div>
-                        <button class="p-1.5 hover:bg-gray-200 rounded" onclick="execCmd('justifyLeft')"><i class="fa-solid fa-align-left"></i></button>
-                        <button class="p-1.5 hover:bg-gray-200 rounded" onclick="execCmd('justifyCenter')"><i class="fa-solid fa-align-center"></i></button>
-                        <button class="p-1.5 hover:bg-gray-200 rounded" onclick="execCmd('justifyFull')"><i class="fa-solid fa-align-justify"></i></button>
+                    <div class="border-b border-gray-200 p-2 bg-gray-50 flex items-center justify-between flex-wrap text-sm text-gray-600 gap-2">
+                        <div class="flex items-center gap-2">
+                            <button class="p-1.5 hover:bg-gray-200 rounded font-bold" onclick="execCmd('bold')"><b>B</b></button>
+                            <button class="p-1.5 hover:bg-gray-200 rounded italic" onclick="execCmd('italic')"><i>I</i></button>
+                            <button class="p-1.5 hover:bg-gray-200 rounded underline" onclick="execCmd('underline')"><u>U</u></button>
+                            <div class="h-4 w-px bg-gray-300"></div>
+                            <button class="p-1.5 hover:bg-gray-200 rounded" onclick="execCmd('justifyLeft')"><i class="fa-solid fa-align-left"></i></button>
+                            <button class="p-1.5 hover:bg-gray-200 rounded" onclick="execCmd('justifyCenter')"><i class="fa-solid fa-align-center"></i></button>
+                            <button class="p-1.5 hover:bg-gray-200 rounded" onclick="execCmd('justifyFull')"><i class="fa-solid fa-align-justify"></i></button>
+                        </div>
+
+                        <!-- Language Conversion Buttons (Eng ➔ Marathi & Marathi ➔ Eng) -->
+                        <div class="flex items-center gap-2">
+                            <!-- English/Hinglish to Marathi Transliteration Button -->
+                            <button onclick="convertHinglishToMarathi()" class="px-3 py-1 bg-amber-500 hover:bg-amber-600 text-white rounded-lg text-xs font-bold transition flex items-center gap-1.5 shadow-sm">
+                                <i class="fa-solid fa-language"></i> Eng ➔ मराठी
+                            </button>
+
+                            <!-- Marathi to English Translation Button -->
+                            <button onclick="convertMarathiToEnglish()" class="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-bold transition flex items-center gap-1.5 shadow-sm">
+                                <i class="fa-solid fa-globe"></i> मराठी ➔ Eng
+                            </button>
+                        </div>
                     </div>
 
-                    <div id="editor-body" contenteditable="true" oninput="saveCurrentArticleChanges()" class="flex-1 p-4 focus:outline-none overflow-y-auto leading-relaxed text-gray-800 text-lg">
+                    <div id="editor-body" contenteditable="true" class="flex-1 p-4 focus:outline-none overflow-y-auto leading-relaxed text-gray-800 text-lg">
                         Main article content goes here...
                     </div>
                 </div>
@@ -202,7 +217,7 @@
                         </div>
                         <div class="flex-1">
                             <label class="text-xs font-medium text-gray-500" id="lbl-photo-caption">Photo Caption</label>
-                            <input type="text" id="photo-caption" oninput="saveCurrentArticleChanges()" class="w-full mt-1 border border-gray-300 rounded p-2 text-sm focus:ring-1 focus:ring-red-500 focus:outline-none" value="A view of traffic congestion in Pune.">
+                            <input type="text" id="photo-caption" class="w-full mt-1 border border-gray-300 rounded p-2 text-sm focus:ring-1 focus:ring-red-500 focus:outline-none" value="A view of traffic congestion in Pune.">
                         </div>
                     </div>
                 </div>

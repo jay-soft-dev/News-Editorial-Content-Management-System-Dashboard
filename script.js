@@ -58,7 +58,9 @@ const indexTranslations = {
         msgApproved: "बातमी मंजूर झाली! प्रिंटसाठी पाठवली आहे.",
         msgRevision: "बातमी दुरुस्तीसाठी परत पाठवली.",
         msgRejected: "बातमी अमान्य केली.",
-        msgUpdated: "बातमी स्टेटस अपडेट झाले!"
+        msgUpdated: "बातमी स्टेटस अपडेट झाले!",
+        msgConverted: "मजकूर यशस्वीरित्या मराठीत रूपांतरित केला!",
+        msgTranslated: "मजकूर यशस्वीरित्या इंग्रजीत रूपांतरित केला!"
     },
     en: {
         brandLogoText: 'Punya<span class="text-amber-500">Nagari</span>',
@@ -113,7 +115,9 @@ const indexTranslations = {
         msgApproved: "Article Approved! Sent to print.",
         msgRevision: "Article sent back for revision.",
         msgRejected: "Article rejected.",
-        msgUpdated: "Article status updated!"
+        msgUpdated: "Article status updated!",
+        msgConverted: "Text successfully transliterated to Marathi!",
+        msgTranslated: "Text successfully translated to English!"
     }
 };
 
@@ -137,17 +141,8 @@ function updateHeaderLiveDate() {
     const yearNum = now.getFullYear();
     const dayName = daysEnglish[now.getDay()];
 
-    let hours = now.getHours();
-    const minutes = now.getMinutes().toString().padStart(2, '0');
-    const ampm = hours >= 12 ? 'PM' : 'AM';
-    hours = hours % 12;
-    hours = hours ? hours : 12;
-    const formattedHours = hours.toString().padStart(2, '0');
-
-    // Header date display string (e.g., "20 September 2026 | Sunday")
     const liveHeaderString = `${dateNum} ${monthName} ${yearNum} | ${dayName}`;
     
-    // Update date in Header HTML (element id: 'header-date-display' or 'headerLiveDate')
     const dateElem = document.getElementById('header-date-display') || document.getElementById('headerLiveDate');
     if (dateElem) {
         dateElem.innerText = liveHeaderString;
@@ -164,16 +159,13 @@ function getTranslation() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Initially load real-time date and update every 1 minute
     updateHeaderLiveDate();
     setInterval(updateHeaderLiveDate, 60000);
 
-    // Reload latest data from LocalStorage
     if (typeof getStoredArticles === 'function') {
         articles = getStoredArticles();
     }
 
-    // Set language dropdown value and update UI language
     const savedLang = getCurrentLang();
     const langSelect = document.getElementById('lang-select');
     if (langSelect) {
@@ -181,7 +173,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     changeLanguage(savedLang);
 
-    // Read Article ID from URL (e.g., index.html?id=3)
     const urlParams = new URLSearchParams(window.location.search);
     const passedId = urlParams.get('id');
 
@@ -194,7 +185,6 @@ document.addEventListener('DOMContentLoaded', () => {
     renderArticlesList();
     loadArticleToEditor(activeArticleId);
 
-    // Live metrics (Word/Char count) and auto-save event listeners
     const editorBody = document.getElementById('editor-body');
     const editorHeadline = document.getElementById('editor-headline');
     const editorSubheadline = document.getElementById('editor-subheadline');
@@ -230,7 +220,6 @@ function changeLanguage(lang) {
         if (elem) elem.innerText = text;
     };
 
-    // Dynamic Brand Logo update (span innerHTML)
     const logoElem = document.getElementById('brand-logo-text');
     if (logoElem) {
         logoElem.innerHTML = t.brandLogoText;
@@ -285,7 +274,6 @@ function changeLanguage(lang) {
     setElemText('lbl-word-count', t.lblWordCount);
     setElemText('lbl-char-count', t.lblCharCount);
 
-    // Refresh article list and status badges
     renderArticlesList();
     const currentArticle = articles.find(a => a.id === activeArticleId);
     if (currentArticle) {
@@ -293,7 +281,7 @@ function changeLanguage(lang) {
     }
 }
 
-// Sync Listener when data changes from another tab/page
+// Sync Listener
 window.addEventListener('storage', (e) => {
     if (e.key === 'punya_articles') {
         if (typeof getStoredArticles === 'function') {
@@ -363,14 +351,12 @@ function renderArticlesList(dataToRender = null) {
     });
 }
 
-// Select an article from list
 function selectArticle(id) {
     activeArticleId = id;
     renderArticlesList();
     loadArticleToEditor(id);
 }
 
-// Load selected article into editor
 function loadArticleToEditor(id) {
     const article = articles.find(a => a.id === id);
     if (!article) return;
@@ -393,7 +379,6 @@ function loadArticleToEditor(id) {
     if (reporterElem) reporterElem.innerText = article.reporter || '';
     if (sourceElem) sourceElem.innerHTML = `${t.lblSourceRoute} <span class="text-blue-600 font-medium">${article.source || t.mailSource}</span>`;
     
-    // Sync dynamic date & time in editor
     if (timeElem) {
         const now = new Date();
         const monthsEnglishShort = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -417,7 +402,6 @@ function loadArticleToEditor(id) {
     calculateMetrics();
 }
 
-// Auto-save changes to LocalStorage on input
 function autoSaveCurrentArticle() {
     const article = articles.find(a => a.id === activeArticleId);
     if (!article) return;
@@ -438,14 +422,12 @@ function autoSaveCurrentArticle() {
         saveArticles(articles);
     }
 
-    // Render list to show live headline updates
     const activeCardTitle = document.querySelector(`.article-card.active h4`);
     if (activeCardTitle) {
         activeCardTitle.innerText = headlineText || t.untitledNews;
     }
 }
 
-// Word and Character Calculation
 function calculateMetrics() {
     const bodyText = document.getElementById('editor-body')?.innerText || "";
     const headlineText = document.getElementById('editor-headline')?.value || "";
@@ -461,7 +443,6 @@ function calculateMetrics() {
     if (charCountElem) charCountElem.innerText = chars;
 }
 
-// Update News Status (Approve, Revision, Reject)
 function updateStatus(newStatus) {
     const article = articles.find(a => a.id === activeArticleId);
     if (article) {
@@ -485,7 +466,6 @@ function updateStatus(newStatus) {
     }
 }
 
-// Update Status Badge UI
 function updateStatusBadgeUI(status) {
     const badge = document.getElementById('current-status-badge');
     if (!badge) return;
@@ -507,7 +487,6 @@ function updateStatusBadgeUI(status) {
     }
 }
 
-// Update Sidebar Count Badges
 function updateBadges() {
     const setBadge = (id, count) => {
         const elem = document.getElementById(id);
@@ -520,11 +499,9 @@ function updateBadges() {
     setBadge('badge-revision', articles.filter(a => a.status === 'revision').length);
     setBadge('badge-rejected', articles.filter(a => a.status === 'rejected').length);
     
-    // Mailbox Badge Counter
     setBadge('badge-mailbox', articles.filter(a => a.source && (a.source.toLowerCase().includes('mail') || a.source.toLowerCase().includes('email'))).length);
 }
 
-// Search Articles
 function searchArticles() {
     const searchInput = document.getElementById('search-input');
     if (!searchInput) return;
@@ -545,7 +522,6 @@ function searchArticles() {
     renderArticlesList(filtered);
 }
 
-// Filter by Status / Mailbox
 function filterArticles(type, btn) {
     currentFilter = type;
     document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active', 'bg-red-50', 'text-red-600', 'bg-slate-800'));
@@ -553,7 +529,6 @@ function filterArticles(type, btn) {
     renderArticlesList();
 }
 
-// Filter by Category
 function filterCategory(category) {
     if (category === 'all') {
         renderArticlesList();
@@ -563,13 +538,11 @@ function filterCategory(category) {
     }
 }
 
-// Text Formatting (Rich Text Editor Commands)
 function execCmd(command, value = null) {
     document.execCommand(command, false, value);
     autoSaveCurrentArticle();
 }
 
-// Show Toast Notification
 function showToast(message) {
     const toast = document.getElementById('toast');
     const toastMsg = document.getElementById('toast-message');
@@ -584,4 +557,128 @@ function showToast(message) {
         toast.classList.remove('opacity-100');
         toast.classList.add('opacity-0', 'pointer-events-none');
     }, 3000);
+}
+
+// ==========================================
+// 2 & 3. Advanced Selection-Aware Conversion Engine
+// ==========================================
+
+// Input aani Textarea che selection save karnya sathi Variables
+let lastActiveInput = null;
+let lastSelection = { start: 0, end: 0 };
+
+document.addEventListener('selectionchange', () => {
+    const active = document.activeElement;
+    if (active && (active.tagName === 'INPUT' || active.tagName === 'TEXTAREA')) {
+        lastActiveInput = active;
+        lastSelection = { start: active.selectionStart, end: active.selectionEnd };
+    }
+});
+
+// API: English to Marathi (Transliteration)
+async function transliterateText(text) {
+    if (!text || text.trim() === '') return text;
+    try {
+        const response = await fetch(`https://inputtools.google.com/request?text=${encodeURIComponent(text)}&itc=mr-t-i0-und&num=1`);
+        const data = await response.json();
+        if (data[0] === 'SUCCESS' && data[1][0][1][0]) {
+            return data[1][0][1][0];
+        }
+    } catch (e) {
+        console.warn("API Transliteration fallback triggered:", e);
+    }
+
+    const phonetics = {
+        "aaj": "आज", "ahet": "आहेत", "pn": "पण", "pan": "पण", "udya": "उद्या",
+        "nahi": "नाही", "pune": "पुणे", "batmi": "बातमी", "lok": "लोक", "maharashtra": "महाराष्ट्र",
+        "shahar": "शहर", "mumbai": "मुंबई", "raja": "राजा", "desh": "देश", "kam": "काम"
+    };
+
+    let words = text.split(/\s+/);
+    let convertedWords = words.map(w => phonetics[w.toLowerCase()] || w);
+    return convertedWords.join(" ");
+}
+
+// API: Marathi to English (Translation)
+async function translateMarathiToEnglish(text) {
+    if (!text || text.trim() === '') return text;
+    try {
+        const response = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=mr&tl=en&dt=t&q=${encodeURIComponent(text)}`);
+        const data = await response.json();
+        if (data && data[0]) {
+            return data[0].map(item => item[0]).join('');
+        }
+    } catch (e) {
+        console.warn("API Translation error:", e);
+    }
+    return text;
+}
+
+// Selection & Full Text unified converter logic
+async function processTextConversion(isMarathiToEng) {
+    const convertFn = isMarathiToEng ? translateMarathiToEnglish : transliterateText;
+
+    // 1. Editor Body (ContentEditable) madhe selected text sathi
+    const selection = window.getSelection();
+    if (selection.rangeCount > 0 && selection.toString().trim() !== '') {
+        const range = selection.getRangeAt(0);
+        const editorBody = document.getElementById('editor-body');
+        
+        if (editorBody && editorBody.contains(range.commonAncestorContainer)) {
+            const selectedText = selection.toString();
+            const converted = await convertFn(selectedText);
+            document.execCommand('insertText', false, converted);
+            calculateMetrics();
+            autoSaveCurrentArticle();
+            showToast(isMarathiToEng ? "Selected text translated to English!" : "Selected text converted to Marathi!");
+            return;
+        }
+    }
+
+    // 2. Input Fields (Headline / Subheadline) madhe selected text sathi
+    if (lastActiveInput && (lastSelection.start !== lastSelection.end)) {
+        const start = lastSelection.start;
+        const end = lastSelection.end;
+        const text = lastActiveInput.value;
+        
+        const selectedText = text.substring(start, end);
+        const converted = await convertFn(selectedText);
+        
+        lastActiveInput.value = text.substring(0, start) + converted + text.substring(end);
+        lastSelection.start = lastSelection.end = 0; 
+        
+        calculateMetrics();
+        autoSaveCurrentArticle();
+        showToast(isMarathiToEng ? "Selected text translated to English!" : "Selected text converted to Marathi!");
+        return;
+    }
+
+    // 3. Fallback: Kahi pan select nasel tar poorna article convert kara
+    const headlineElem = document.getElementById('editor-headline');
+    const subheadlineElem = document.getElementById('editor-subheadline');
+    const bodyElem = document.getElementById('editor-body');
+
+    if (headlineElem && headlineElem.value) {
+        headlineElem.value = await convertFn(headlineElem.value);
+    }
+    if (subheadlineElem && subheadlineElem.value) {
+        subheadlineElem.value = await convertFn(subheadlineElem.value);
+    }
+    if (bodyElem && bodyElem.innerText) {
+        const plainText = bodyElem.innerText;
+        bodyElem.innerText = await convertFn(plainText);
+    }
+
+    calculateMetrics();
+    autoSaveCurrentArticle();
+    const t = getTranslation();
+    showToast(isMarathiToEng ? (t.msgTranslated || "Full Text Translated to English!") : (t.msgConverted || "Full Text Transliterated to Marathi!"));
+}
+
+async function convertHinglishToMarathi() {
+    await processTextConversion(false);
+}
+
+async function convertMarathiToEnglish() {
+    await processTextConversion(true);
 }
