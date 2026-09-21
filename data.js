@@ -5,67 +5,67 @@
 const defaultArticles = [
     {
         id: 1,
-        headline: "पुण्यात वाहतूक कोंडीवर नवीन उपाययोजना; मेट्रो मार्गिकेचे काम वेगाने...",
-        subheadline: "वाहतूक पोलिसांचा नवीन आराखडा तयार",
-        content: "पुणे शहरातील वाढत्या वाहतूक कोंडीवर मात करण्यासाठी प्रशासन सज्ज झाले आहे. मेट्रो मार्गिकेच्या कामामुळे होणारी कोंडी कमी करण्यासाठी वाहतूक पोलिसांनी नवीन मार्ग निश्चित केले आहेत.",
-        reporter: "प्रमोद देशपांडे",
-        source: "ई-मेल (Pune Bureau)",
-        time: "१०:४५ AM",
-        category: "स्थानिक",
+        headline: "New Traffic Congestion Measures in Pune; Metro Route Work Progresses Rapidly...",
+        subheadline: "Traffic Police Prepare New Action Plan",
+        content: "The city administration is fully prepared to tackle the growing traffic congestion in Pune. To minimize traffic jams caused by ongoing Metro route construction, the traffic police have identified and deployed new alternative routes.",
+        reporter: "Pramod Deshpande",
+        source: "Email (Pune Bureau)",
+        time: "10:45 AM",
+        category: "Local",
         status: "pending",
-        caption: "पुण्यातील वाहतूक कोंडीचे दृश्य.",
+        caption: "A view of traffic congestion in Pune.",
         imageUrl: "https://images.unsplash.com/photo-1570125909232-eb263c188f7e?auto=format&fit=crop&w=400&q=80"
     },
     {
         id: 2,
-        headline: "राज्यात मान्सूनचा पुन्हा जोर; पुढील ४८ तासांत मुसळधार पावसाचा इशारा...",
-        subheadline: "हवामान खात्याने जारी केला यलो अलर्ट",
-        content: "राज्यात मान्सूनचा प्रवास पुन्हा एकदा गतिमान झाला आहे. पुढील ४८ तासांत कोकण, मध्य महाराष्ट्र आणि विदर्भात मुसळधार पावसाची शक्यता हवामान विभागाने वर्तवली आहे.",
-        reporter: "संजय जाधव",
-        source: "एजन्सी (PTI News)",
-        time: "०९:३० AM",
-        category: "राजकारण",
+        headline: "Monsoon Regains Strength in State; Heavy Rainfall Warning for Next 48 Hours...",
+        subheadline: "Meteorological Department Issues Yellow Alert",
+        content: "Monsoon progress across the state has gained momentum once again. The Meteorological Department has forecasted heavy to very heavy rainfall in Konkan, Central Maharashtra, and Vidarbha over the next 48 hours.",
+        reporter: "Sanjay Jadhav",
+        source: "Agency (PTI News)",
+        time: "09:30 AM",
+        category: "Politics",
         status: "approved",
-        caption: "पावसाचे दृश्य.",
+        caption: "A view of heavy monsoon rain.",
         imageUrl: "https://images.unsplash.com/photo-1515694346937-94d85e41e6f0?auto=format&fit=crop&w=400&q=80"
     },
     {
         id: 3,
-        headline: "पिंपरी चिंचवडमध्ये डिजिटल फसवणूक करणारी टोळी गजाआड",
-        subheadline: "सायबर पोलिसांची मोठी कारवाई",
-        content: "पिंपरी चिंचवड सायबर सेलने मोठ्या फसवणूक प्रकरणी तीन आरोपींना अटक केली. नागरिकांना ऑनलाईन टास्क देऊन कोट्यवधी रुपयांचा गंडा घालण्याचा प्रकार समोर आला आहे.",
-        reporter: "विक्रम साळुंखे",
-        source: "क्राईम रिपोर्टर",
-        time: "०८:१५ AM",
-        category: "गुन्हेगारी",
+        headline: "Digital Fraud Gang Busted in Pimpri Chinchwad",
+        subheadline: "Major Operation by Cyber Police",
+        content: "The Pimpri Chinchwad Cyber Cell arrested three suspects in a major online fraud investigation. The gang allegedly defrauded citizens of crores of rupees under the guise of completing lucrative online tasks.",
+        reporter: "Vikram Salunkhe",
+        source: "Crime Reporter",
+        time: "08:15 AM",
+        category: "Crime",
         status: "revision",
-        caption: "सायबर सेल पोलीस स्टेशन.",
+        caption: "Cyber Cell Police Station premises.",
         imageUrl: "https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=400&q=80"
     },
     {
         id: 4,
-        headline: "सोन्याच्या दरात घसरण; ग्राहकांची खरेदीसाठी गर्दी",
-        subheadline: "सराफा बाजारात उत्साह",
-        content: "आंतरराष्ट्रीय घडामोडींमुळे आज सोन्याच्या दरात घसरण पाहायला मिळाली. प्रति तोळा सोन्याचे दर ६०० रुपयांनी कमी झाल्यामुळे ग्राहकांनी सराफा दुकानांमध्ये गर्दी केली आहे.",
-        reporter: "सचिन कुलकर्णी",
+        headline: "Gold Prices Drop; Buyers Crowd Bullion Markets",
+        subheadline: "Enthusiasm in Jewellery Outlets",
+        content: "Gold prices registered a notable drop today following global market fluctuations. With prices decreasing by ₹600 per 10 grams, bullion markets saw an influx of eager retail shoppers.",
+        reporter: "Sachin Kulkarni",
         source: "sachin.k@punyanagri.com",
-        time: "११:१५ AM",
-        category: "स्थानिक",
+        time: "11:15 AM",
+        category: "Local",
         status: "pending",
-        caption: "सराफा बाजार.",
+        caption: "A bustling jewellers market.",
         imageUrl: "https://images.unsplash.com/photo-1610375461246-83df859d849d?auto=format&fit=crop&w=400&q=80"
     },
     {
         id: 5,
-        headline: "भारत विरुद्ध ऑस्ट्रेलिया टी-२० मालिका उद्यापासून",
-        subheadline: "भारतीय संघ पूर्ण ताकदीनिशी उतरणार",
-        content: "भारत आणि ऑस्ट्रेलिया यांच्यातील बहुप्रतिक्षित टी-२० मालिकेला उद्यापासून सुरुवात होत आहे. भारतीय संघाचे नेतृत्व रोहित शर्मा करणार असून मालिकेची उत्सुकता शिगेला पोहोचली आहे.",
-        reporter: "रोहित शिंदे",
+        headline: "India vs Australia T20 Series Starts Tomorrow",
+        subheadline: "Team India Ready to Compete at Full Strength",
+        content: "The highly anticipated T20 series between India and Australia kicks off tomorrow. Led by captain Rohit Sharma, the Indian team is aiming for a strong start as fan excitement reaches fever pitch.",
+        reporter: "Rohit Shinde",
         source: "Agency Feed",
-        time: "११:५० AM",
-        category: "क्रीडा",
+        time: "11:50 AM",
+        category: "Sports",
         status: "approved",
-        caption: "भारतीय संघ.",
+        caption: "Indian Cricket Team.",
         imageUrl: "https://images.unsplash.com/photo-1531415074968-036ba1b575da?auto=format&fit=crop&w=400&q=80"
     }
 ];
@@ -75,8 +75,8 @@ const defaultArticles = [
 // ==========================================
 
 /**
- * LocalStorage मधून सर्व आर्टिकल्स मिळवा.
- * जर डेटा नसेल तर defaultArticles सेट करा.
+ * Retrieve all articles from LocalStorage.
+ * If no data exists, initialize LocalStorage with defaultArticles.
  */
 function getStoredArticles() {
     try {
@@ -93,7 +93,7 @@ function getStoredArticles() {
 }
 
 /**
- * LocalStorage मध्ये अपडेटेड आर्टिकल्स सेव्ह करा.
+ * Save updated articles array to LocalStorage.
  */
 function saveArticles(articles) {
     try {
@@ -104,7 +104,7 @@ function saveArticles(articles) {
 }
 
 /**
- * ठराविक ID असलेला आर्टिकल शोधून मिळवा.
+ * Find and return an article by its unique ID.
  */
 function getArticleById(id) {
     const articles = getStoredArticles();
@@ -112,7 +112,7 @@ function getArticleById(id) {
 }
 
 /**
- * विशिष्ट आर्टिकल अपडेट करा.
+ * Update a specific article in LocalStorage.
  */
 function updateArticleInStorage(updatedArticle) {
     let articles = getStoredArticles();
@@ -124,18 +124,18 @@ function updateArticleInStorage(updatedArticle) {
 }
 
 /**
- * नवीन आर्टिकल जोडण्यासाठी हेल्पिंग फंक्शन.
+ * Helper function to create and prepend a new article.
  */
 function addNewArticle(newArticle) {
     let articles = getStoredArticles();
-    newArticle.id = Date.now(); // Unique Identifier
+    newArticle.id = Date.now(); // Unique Timestamp Identifier
     articles.unshift(newArticle);
     saveArticles(articles);
     return newArticle;
 }
 
 /**
- * आर्टिकल हटवण्यासाठी (Delete) फंक्शन.
+ * Remove an article from LocalStorage by ID.
  */
 function deleteArticleFromStorage(id) {
     let articles = getStoredArticles();
@@ -144,7 +144,7 @@ function deleteArticleFromStorage(id) {
 }
 
 /**
- * डिफॉल्ट डेटा रिसेट करण्यासाठी.
+ * Reset LocalStorage back to default sample articles.
  */
 function resetToDefaultData() {
     localStorage.setItem('punya_articles', JSON.stringify(defaultArticles));

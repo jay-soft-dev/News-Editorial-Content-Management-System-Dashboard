@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="mr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="head-title">पुण्य नगरी - संपादक व्यवस्थापन प्रणाली (Editorial CMS)</title>
+    <title id="head-title">Punya Nagari - Editorial Management System (CMS)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts for Marathi -->
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@300;400;500;600;700;800&family=Yatra+One&display=swap" rel="stylesheet">
@@ -22,14 +22,15 @@
     <header class="bg-white border-b border-gray-200 px-4 py-2.5 flex items-center justify-between z-10 shadow-sm">
         <div class="flex items-center space-x-4">
             <div class="flex items-center gap-2">
-                <span class="brand-font text-3xl font-extrabold text-red-600 tracking-wider">पुण्य<span class="text-amber-500">नगरी</span></span>
-                <span id="header-badge" class="bg-red-100 text-red-800 text-xs font-bold px-2 py-0.5 rounded">संपादक डेस्क</span>
+              <span id="brand-logo-text" class="brand-font text-3xl font-extrabold text-red-600 tracking-wider">
+                 Punya<span class="text-amber-500">Nagari</span></span>
+                <span id="header-badge" class="bg-red-100 text-red-800 text-xs font-bold px-2 py-0.5 rounded">Editor Desk</span>
             </div>
-            <div class="h-6 w-px bg-gray-300 mx-2"></div>
-            <span class="text-sm font-medium text-gray-500 flex items-center gap-1">
-                <i class="fa-regular fa-calendar-check text-red-600"></i>
-                <span id="current-date">२० सप्टेंबर २०२६ | रविवार</span>
-            </span>
+            <!-- Header Date Indicator -->
+            <div class="flex items-center space-x-2 text-xs font-medium text-slate-700 bg-slate-100 px-3 py-1.5 rounded-lg border border-slate-200">
+                <i class="fa-regular fa-calendar-days text-brand-red"></i>
+                <span id="headerLiveDate">Loading...</span>
+            </div>
         </div>
 
         <div class="flex items-center space-x-3">
@@ -45,12 +46,12 @@
             <!-- Link To Master Control Page -->
             <a href="master.html" class="bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs px-3 py-2 rounded-lg transition flex items-center gap-2 border border-slate-700">
                 <i class="fa-solid fa-table-cells text-amber-400"></i>
-                <span id="master-btn-text">मास्टर ट्रॅकर शीट (Excel View)</span>
+                <span id="master-btn-text">Master Tracker Sheet (Excel View)</span>
             </a>
 
             <div class="relative">
                 <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-gray-400 text-sm"></i>
-                <input type="text" id="search-input" oninput="searchArticles()" placeholder="बातमी / रिपोर्टर शोधा..." class="pl-9 pr-4 py-1.5 bg-gray-100 text-sm rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-red-500 w-56">
+                <input type="text" id="search-input" oninput="searchArticles()" placeholder="Search News / Reporter..." class="pl-9 pr-4 py-1.5 bg-gray-100 text-sm rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-red-500 w-56">
             </div>
 
             <button class="relative p-2 text-gray-600 hover:text-red-600 rounded-full hover:bg-gray-100">
@@ -59,10 +60,10 @@
             </button>
 
             <div class="flex items-center gap-2 border-l pl-3 border-gray-200">
-                <div class="w-8 h-8 rounded-full bg-red-600 text-white flex items-center justify-center font-bold text-sm">सु</div>
+                <div class="w-8 h-8 rounded-full bg-red-600 text-white flex items-center justify-center font-bold text-sm">JP</div>
                 <div class="text-left text-xs">
-                    <p class="font-bold text-gray-800 leading-none">सुरेश पाटील</p>
-                    <p class="text-gray-500" id="user-role">मुख्य संपादक (Pune Edition)</p>
+                    <p class="font-bold text-gray-800 leading-none">JAY PAWAR</p>
+                    <p class="text-gray-500" id="user-role">Chief Editor (Pune Edition)</p>
                 </div>
             </div>
         </div>
@@ -74,43 +75,43 @@
         <!-- Left Navigation Sidebar -->
         <aside class="w-64 bg-slate-900 text-slate-300 flex flex-col justify-between border-r border-slate-800">
             <div class="py-3">
-                <div class="px-4 text-xs font-bold text-slate-400 uppercase tracking-wider mb-2" id="nav-main-title">मुख्य नेव्हिगेशन</div>
+                <div class="px-4 text-xs font-bold text-slate-400 uppercase tracking-wider mb-2" id="nav-main-title">MAIN NAVIGATION</div>
                 <nav class="space-y-1 px-2">
                     <button class="nav-btn active w-full flex items-center justify-between px-3 py-2 text-sm rounded-lg transition" onclick="filterArticles('all', this)">
-                        <span class="flex items-center gap-2.5"><i class="fa-solid fa-inbox text-amber-400"></i> <span id="nav-all">सर्व बातम्या</span></span>
-                        <span id="badge-all" class="bg-amber-500/20 text-amber-300 text-xs px-2 py-0.5 rounded-full font-bold">०</span>
+                        <span class="flex items-center gap-2.5"><i class="fa-solid fa-inbox text-amber-400"></i> <span id="nav-all">All News</span></span>
+                        <span id="badge-all" class="bg-amber-500/20 text-amber-300 text-xs px-2 py-0.5 rounded-full font-bold">0</span>
                     </button>
                     <button class="nav-btn w-full flex items-center justify-between px-3 py-2 text-sm rounded-lg transition" onclick="filterArticles('pending', this)">
-                        <span class="flex items-center gap-2.5"><i class="fa-solid fa-clock text-blue-400"></i> <span id="nav-pending">मंजुरीसाठी प्रलंबित</span></span>
-                        <span id="badge-pending" class="bg-blue-500/20 text-blue-300 text-xs px-2 py-0.5 rounded-full font-bold">०</span>
+                        <span class="flex items-center gap-2.5"><i class="fa-solid fa-clock text-blue-400"></i> <span id="nav-pending">Pending Approval</span></span>
+                        <span id="badge-pending" class="bg-blue-500/20 text-blue-300 text-xs px-2 py-0.5 rounded-full font-bold">0</span>
                     </button>
                     <button class="nav-btn w-full flex items-center justify-between px-3 py-2 text-sm rounded-lg transition" onclick="filterArticles('approved', this)">
-                        <span class="flex items-center gap-2.5"><i class="fa-solid fa-circle-check text-green-400"></i> <span id="nav-approved">मंजूर (प्रिंटसाठी तयार)</span></span>
-                        <span id="badge-approved" class="bg-green-500/20 text-green-300 text-xs px-2 py-0.5 rounded-full font-bold">०</span>
+                        <span class="flex items-center gap-2.5"><i class="fa-solid fa-circle-check text-green-400"></i> <span id="nav-approved">Approved (Ready for Print)</span></span>
+                        <span id="badge-approved" class="bg-green-500/20 text-green-300 text-xs px-2 py-0.5 rounded-full font-bold">0</span>
                     </button>
                     <button class="nav-btn w-full flex items-center justify-between px-3 py-2 text-sm rounded-lg transition" onclick="filterArticles('revision', this)">
-                        <span class="flex items-center gap-2.5"><i class="fa-solid fa-pen-to-square text-orange-400"></i> <span id="nav-revision">दुरुस्तीसाठी पाठवले</span></span>
-                        <span id="badge-revision" class="bg-orange-500/20 text-orange-300 text-xs px-2 py-0.5 rounded-full font-bold">०</span>
+                        <span class="flex items-center gap-2.5"><i class="fa-solid fa-pen-to-square text-orange-400"></i> <span id="nav-revision">Sent for Revision</span></span>
+                        <span id="badge-revision" class="bg-orange-500/20 text-orange-300 text-xs px-2 py-0.5 rounded-full font-bold">0</span>
                     </button>
                     <button class="nav-btn w-full flex items-center justify-between px-3 py-2 text-sm rounded-lg transition" onclick="filterArticles('rejected', this)">
-                        <span class="flex items-center gap-2.5"><i class="fa-solid fa-circle-xmark text-red-400"></i> <span id="nav-rejected">अमान्य / नाकारलेले</span></span>
-                        <span id="badge-rejected" class="bg-red-500/20 text-red-300 text-xs px-2 py-0.5 rounded-full font-bold">०</span>
+                        <span class="flex items-center gap-2.5"><i class="fa-solid fa-circle-xmark text-red-400"></i> <span id="nav-rejected">Rejected / Declined</span></span>
+                        <span id="badge-rejected" class="bg-red-500/20 text-red-300 text-xs px-2 py-0.5 rounded-full font-bold">0</span>
                     </button>
                     <button onclick="filterArticles('mailbox', this)" class="nav-btn w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-sm font-medium hover:bg-slate-800 transition">
                          <div class="flex items-center gap-3">
-                          <i class="fa-solid fa-envelope text-amber-400"></i>
-                             <span id="nav-mailbox">मेल बॉक्स (इमेल बातम्या)</span>
-                                       </div>
+                            <i class="fa-solid fa-envelope text-amber-400"></i>
+                            <span id="nav-mailbox">Mail Box (Email Import)</span>
+                         </div>
                          <span id="badge-mailbox" class="bg-amber-500/20 text-amber-300 text-xs px-2 py-0.5 rounded-full font-bold">0</span>
                     </button>
                 </nav>
 
-                <div class="px-4 text-xs font-bold text-slate-400 uppercase tracking-wider mt-6 mb-2" id="nav-beats-title">विभाग (Beats)</div>
+                <div class="px-4 text-xs font-bold text-slate-400 uppercase tracking-wider mt-6 mb-2" id="nav-beats-title">BEATS / CATEGORIES</div>
                 <div class="space-y-1 px-2 text-sm">
-                    <button onclick="filterCategory('स्थानिक')" class="w-full text-left px-3 py-1.5 rounded text-slate-400 hover:text-white hover:bg-slate-800 transition" id="beat-pune">• पुणे शहर / स्थानिक</button>
-                    <button onclick="filterCategory('राजकारण')" class="w-full text-left px-3 py-1.5 rounded text-slate-400 hover:text-white hover:bg-slate-800 transition" id="beat-politics">• महाराष्ट्र / राजकारण</button>
-                    <button onclick="filterCategory('गुन्हेगारी')" class="w-full text-left px-3 py-1.5 rounded text-slate-400 hover:text-white hover:bg-slate-800 transition" id="beat-crime">• गुन्हेगारी / Crime</button>
-                    <button onclick="filterCategory('क्रीडा')" class="w-full text-left px-3 py-1.5 rounded text-slate-400 hover:text-white hover:bg-slate-800 transition" id="beat-sports">• क्रीडा / Sports</button>
+                    <button onclick="filterCategory('Local')" class="w-full text-left px-3 py-1.5 rounded text-slate-400 hover:text-white hover:bg-slate-800 transition" id="beat-pune">• Pune City / Local</button>
+                    <button onclick="filterCategory('Politics')" class="w-full text-left px-3 py-1.5 rounded text-slate-400 hover:text-white hover:bg-slate-800 transition" id="beat-politics">• Maharashtra / Politics</button>
+                    <button onclick="filterCategory('Crime')" class="w-full text-left px-3 py-1.5 rounded text-slate-400 hover:text-white hover:bg-slate-800 transition" id="beat-crime">• Crime</button>
+                    <button onclick="filterCategory('Sports')" class="w-full text-left px-3 py-1.5 rounded text-slate-400 hover:text-white hover:bg-slate-800 transition" id="beat-sports">• Sports</button>
                 </div>
             </div>
 
@@ -124,9 +125,9 @@
         <section class="w-80 bg-white border-r border-gray-200 flex flex-col h-full">
             <div class="p-3 border-b border-gray-200 bg-gray-50 flex items-center justify-between">
                 <h2 class="font-bold text-gray-700 flex items-center gap-2 text-sm">
-                    <i class="fa-solid fa-list-ul text-red-600"></i> <span id="inbox-title">आल्या बातम्या (Inbox)</span>
+                    <i class="fa-solid fa-list-ul text-red-600"></i> <span id="inbox-title">Incoming News (Inbox)</span>
                 </h2>
-                <span id="article-count" class="text-xs bg-gray-200 text-gray-700 font-bold px-2 py-0.5 rounded-full">०</span>
+                <span id="article-count" class="text-xs bg-gray-200 text-gray-700 font-bold px-2 py-0.5 rounded-full">0</span>
             </div>
             
             <div id="articles-container" class="flex-1 overflow-y-auto divide-y divide-gray-100">
@@ -140,27 +141,27 @@
             <div class="bg-white border-b border-gray-200 px-6 py-3 shadow-sm flex items-center justify-between">
                 <div class="flex items-center gap-4">
                     <div class="flex items-center gap-2">
-                        <div class="w-10 h-10 rounded-full bg-slate-200 flex items-center justify-center text-slate-600 font-bold" id="reporter-avatar">प्र</div>
+                        <div class="w-10 h-10 rounded-full bg-slate-200 flex items-center justify-center text-slate-600 font-bold" id="reporter-avatar">P</div>
                         <div>
-                            <p class="text-sm font-bold text-gray-800 leading-tight" id="meta-reporter">प्रमोद देशपांडे</p>
-                            <p class="text-xs text-gray-500"><span id="lbl-source-route">मार्ग:</span> <span class="text-blue-600 font-medium" id="meta-source">ई-मेल (Mail Import)</span></p>
+                            <p class="text-sm font-bold text-gray-800 leading-tight" id="meta-reporter">Pramod Deshpande</p>
+                            <p class="text-xs text-gray-500"><span id="lbl-source-route">Source:</span> <span class="text-blue-600 font-medium" id="meta-source">Email (Mail Import)</span></p>
                         </div>
                     </div>
                     <div class="h-8 w-px bg-gray-200"></div>
                     <div>
-                        <span class="text-xs text-gray-400 block" id="lbl-datetime">वेळ व तारीख</span>
-                        <span class="text-xs font-semibold text-gray-700" id="meta-time">१०:४५ AM | २० सप्टें</span>
+                        <span class="text-xs text-gray-400 block" id="lbl-datetime">Date & Time</span>
+                        <span class="text-xs font-semibold text-gray-700" id="meta-time">10:45 AM | Sep 20</span>
                     </div>
                     <div class="h-8 w-px bg-gray-200"></div>
                     <div>
-                        <span class="text-xs text-gray-400 block" id="lbl-category">विभाग / शहर</span>
-                        <span class="text-xs font-semibold text-red-600 bg-red-50 px-2 py-0.5 rounded" id="meta-category">स्थानिक / पुणे</span>
+                        <span class="text-xs text-gray-400 block" id="lbl-category">Category / City</span>
+                        <span class="text-xs font-semibold text-red-600 bg-red-50 px-2 py-0.5 rounded" id="meta-category">Local / Pune</span>
                     </div>
                 </div>
 
                 <div class="flex items-center gap-2">
                     <span id="current-status-badge" class="px-3 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-800">
-                        मंजुरीसाठी प्रलंबित
+                        Pending Approval
                     </span>
                 </div>
             </div>
@@ -168,11 +169,11 @@
             <!-- News Editing Area -->
             <div class="flex-1 overflow-y-auto p-6 space-y-4">
                 <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm space-y-2">
-                    <label class="text-xs font-bold text-gray-400 uppercase tracking-wide" id="lbl-headline">मथळा (Main Headline)</label>
-                    <input type="text" id="editor-headline" oninput="saveCurrentArticleChanges()" class="w-full text-2xl font-bold text-gray-900 border-b border-gray-200 focus:border-red-600 focus:outline-none pb-2 font-serif" placeholder="बातमीचा मुख्य मथळा टाका...">
+                    <label class="text-xs font-bold text-gray-400 uppercase tracking-wide" id="lbl-headline">Main Headline</label>
+                    <input type="text" id="editor-headline" oninput="saveCurrentArticleChanges()" class="w-full text-2xl font-bold text-gray-900 border-b border-gray-200 focus:border-red-600 focus:outline-none pb-2 font-serif" placeholder="Enter main headline...">
                     
-                    <label class="text-xs font-bold text-gray-400 uppercase tracking-wide block pt-2" id="lbl-subheadline">उप-मथळा (Sub Headline)</label>
-                    <input type="text" id="editor-subheadline" oninput="saveCurrentArticleChanges()" class="w-full text-base font-semibold text-gray-600 border-b border-gray-100 focus:border-red-600 focus:outline-none pb-1" placeholder="उप-मथळा...">
+                    <label class="text-xs font-bold text-gray-400 uppercase tracking-wide block pt-2" id="lbl-subheadline">Sub Headline</label>
+                    <input type="text" id="editor-subheadline" oninput="saveCurrentArticleChanges()" class="w-full text-base font-semibold text-gray-600 border-b border-gray-100 focus:border-red-600 focus:outline-none pb-1" placeholder="Enter sub headline...">
                 </div>
 
                 <!-- Rich Text Editor -->
@@ -188,20 +189,20 @@
                     </div>
 
                     <div id="editor-body" contenteditable="true" oninput="saveCurrentArticleChanges()" class="flex-1 p-4 focus:outline-none overflow-y-auto leading-relaxed text-gray-800 text-lg">
-                        येथे मुख्य बातमीचा मजकूर येईल...
+                        Main article content goes here...
                     </div>
                 </div>
 
                 <!-- Media Section -->
                 <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
-                    <label class="text-xs font-bold text-gray-400 uppercase tracking-wide block mb-3" id="lbl-attached-media">बातमीसोबत आलेले फोटो (Attached Media)</label>
+                    <label class="text-xs font-bold text-gray-400 uppercase tracking-wide block mb-3" id="lbl-attached-media">Attached Media</label>
                     <div class="flex items-center gap-4">
                         <div class="relative w-36 h-24 bg-gray-100 border border-gray-200 rounded-lg overflow-hidden">
                             <img id="article-img" src="https://images.unsplash.com/photo-1570125909232-eb263c188f7e?auto=format&fit=crop&w=400&q=80" alt="News Image" class="w-full h-full object-cover">
                         </div>
                         <div class="flex-1">
-                            <label class="text-xs font-medium text-gray-500" id="lbl-photo-caption">फोटो कॅप्शन</label>
-                            <input type="text" id="photo-caption" oninput="saveCurrentArticleChanges()" class="w-full mt-1 border border-gray-300 rounded p-2 text-sm focus:ring-1 focus:ring-red-500 focus:outline-none" value="पुण्यातील वाहतूक कोंडीचे दृश्य.">
+                            <label class="text-xs font-medium text-gray-500" id="lbl-photo-caption">Photo Caption</label>
+                            <input type="text" id="photo-caption" oninput="saveCurrentArticleChanges()" class="w-full mt-1 border border-gray-300 rounded p-2 text-sm focus:ring-1 focus:ring-red-500 focus:outline-none" value="A view of traffic congestion in Pune.">
                         </div>
                     </div>
                 </div>
@@ -212,27 +213,27 @@
         <aside class="w-80 bg-white border-l border-gray-200 flex flex-col justify-between h-full p-4 space-y-4">
             <div class="space-y-4">
                 <h3 class="font-bold text-gray-800 text-base border-b pb-2 flex items-center gap-2">
-                    <i class="fa-solid fa-sliders text-red-600"></i> <span id="lbl-actions-header">निर्णय व मुख्य कृती</span>
+                    <i class="fa-solid fa-sliders text-red-600"></i> <span id="lbl-actions-header">Actions & Decisions</span>
                 </h3>
 
                 <div class="space-y-2">
                     <button onclick="updateStatus('approved')" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 px-4 rounded-lg shadow transition flex items-center justify-center gap-2 text-sm">
-                        <i class="fa-solid fa-check-circle"></i> <span id="btn-approve">मंजूर करा आणि प्रिंटला पाठवा</span>
+                        <i class="fa-solid fa-check-circle"></i> <span id="btn-approve">Approve & Send to Print</span>
                     </button>
 
                     <button onclick="updateStatus('revision')" class="w-full bg-amber-500 hover:bg-amber-600 text-white font-bold py-2.5 px-4 rounded-lg shadow transition flex items-center justify-center gap-2 text-sm">
-                        <i class="fa-solid fa-rotate-left"></i> <span id="btn-revision">दुरुस्तीसाठी परत पाठवा</span>
+                        <i class="fa-solid fa-rotate-left"></i> <span id="btn-revision">Send Back for Revision</span>
                     </button>
 
                     <button onclick="updateStatus('rejected')" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg shadow transition flex items-center justify-center gap-2 text-sm">
-                        <i class="fa-solid fa-trash-can"></i> <span id="btn-reject">अमान्य / नाकारा</span>
+                        <i class="fa-solid fa-trash-can"></i> <span id="btn-reject">Reject / Decline</span>
                     </button>
                 </div>
 
                 <div class="bg-gray-50 p-3 rounded-lg border border-gray-200 space-y-3 mt-4">
-                    <h4 class="text-xs font-bold text-gray-500 uppercase" id="lbl-layout-analysis">लेआउट विश्लेषण</h4>
-                    <div class="flex justify-between text-sm"><span class="text-gray-600" id="lbl-word-count">शब्दसंख्या:</span><span id="word-count" class="font-bold">०</span></div>
-                    <div class="flex justify-between text-sm"><span class="text-gray-600" id="lbl-char-count">अक्षरे:</span><span id="char-count" class="font-bold">०</span></div>
+                    <h4 class="text-xs font-bold text-gray-500 uppercase" id="lbl-layout-analysis">Layout Analysis</h4>
+                    <div class="flex justify-between text-sm"><span class="text-gray-600" id="lbl-word-count">Word Count:</span><span id="word-count" class="font-bold">0</span></div>
+                    <div class="flex justify-between text-sm"><span class="text-gray-600" id="lbl-char-count">Characters:</span><span id="char-count" class="font-bold">0</span></div>
                 </div>
             </div>
         </aside>
@@ -241,7 +242,7 @@
 
     <!-- Toast Notification -->
     <div id="toast" class="fixed bottom-5 right-5 bg-slate-900 text-white px-4 py-3 rounded-lg shadow-xl transition-opacity opacity-0 pointer-events-none z-50">
-        <span id="toast-message" class="text-sm font-medium">संदेश</span>
+        <span id="toast-message" class="text-sm font-medium">Message</span>
     </div>
 
     <!-- Script Files linked in proper order -->

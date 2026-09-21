@@ -1,11 +1,12 @@
-// LocalStorage से आर्टिकल्स (Articles) लोड करें
+// Load articles from LocalStorage
 let articles = typeof getStoredArticles === 'function' ? getStoredArticles() : [];
 let activeArticleId = 1;
 let currentFilter = 'all';
 
-// भाषा बदलने के लिए डिक्शनरी (Translations Dictionary)
+// Translations Dictionary
 const indexTranslations = {
     mr: {
+        brandLogoText: 'पुण्य<span class="text-amber-500">नगरी</span>',
         headTitle: "पुण्य नगरी - संपादक व्यवस्थापन प्रणाली (Editorial CMS)",
         headerBadge: "संपादक डेस्क",
         masterBtnText: "मास्टर ट्रॅकर शीट (Excel View)",
@@ -60,6 +61,7 @@ const indexTranslations = {
         msgUpdated: "बातमी स्टेटस अपडेट झाले!"
     },
     en: {
+        brandLogoText: 'Punya<span class="text-amber-500">Nagari</span>',
         headTitle: "Punya Nagari - Editorial Management System (CMS)",
         headerBadge: "Editor Desk",
         masterBtnText: "Master Tracker Sheet (Excel View)",
@@ -107,7 +109,7 @@ const indexTranslations = {
         statusPendingBadge: "● Pending Approval",
         statusApprovedBadge: "✓ Approved (Ready for Print)",
         statusRevisionBadge: "⚠ Sent for Revision",
-        statusRejectedBadge: "✕ Rejected / Declined",
+        statusRejectedBadge: "✕ Sent for Revision",
         msgApproved: "Article Approved! Sent to print.",
         msgRevision: "Article sent back for revision.",
         msgRejected: "Article rejected.",
@@ -115,22 +117,63 @@ const indexTranslations = {
     }
 };
 
-// वर्तमान भाषा प्राप्त करें (Get current language)
+// ==========================================
+// 1. Real-time Date and Time Updater Function
+// ==========================================
+function updateHeaderLiveDate() {
+    const now = new Date();
+
+    const monthsEnglish = [
+        "January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+    ];
+
+    const daysEnglish = [
+        "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
+    ];
+
+    const dateNum = now.getDate();
+    const monthName = monthsEnglish[now.getMonth()];
+    const yearNum = now.getFullYear();
+    const dayName = daysEnglish[now.getDay()];
+
+    let hours = now.getHours();
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12;
+    hours = hours ? hours : 12;
+    const formattedHours = hours.toString().padStart(2, '0');
+
+    // Header date display string (e.g., "20 September 2026 | Sunday")
+    const liveHeaderString = `${dateNum} ${monthName} ${yearNum} | ${dayName}`;
+    
+    // Update date in Header HTML (element id: 'header-date-display' or 'headerLiveDate')
+    const dateElem = document.getElementById('header-date-display') || document.getElementById('headerLiveDate');
+    if (dateElem) {
+        dateElem.innerText = liveHeaderString;
+    }
+}
+
+// Get current language
 function getCurrentLang() {
-    return localStorage.getItem('selected_language') || 'mr';
+    return localStorage.getItem('selected_language') || 'en';
 }
 
 function getTranslation() {
-    return indexTranslations[getCurrentLang()] || indexTranslations.mr;
+    return indexTranslations[getCurrentLang()] || indexTranslations.en;
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    // LocalStorage से लेटेस्ट डेटा रीलोड करें
+    // 1. Initially load real-time date and update every 1 minute
+    updateHeaderLiveDate();
+    setInterval(updateHeaderLiveDate, 60000);
+
+    // Reload latest data from LocalStorage
     if (typeof getStoredArticles === 'function') {
         articles = getStoredArticles();
     }
 
-    // भाषा ड्रॉपडाउन वैल्यू सेट करें और UI भाषा अपडेट करें
+    // Set language dropdown value and update UI language
     const savedLang = getCurrentLang();
     const langSelect = document.getElementById('lang-select');
     if (langSelect) {
@@ -138,7 +181,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     changeLanguage(savedLang);
 
-    // URL से Article ID पढ़ें (उदाहरण: index.html?id=3)
+    // Read Article ID from URL (e.g., index.html?id=3)
     const urlParams = new URLSearchParams(window.location.search);
     const passedId = urlParams.get('id');
 
@@ -151,7 +194,7 @@ document.addEventListener('DOMContentLoaded', () => {
     renderArticlesList();
     loadArticleToEditor(activeArticleId);
 
-    // लाइव मेट्रिक्स (Word/Char count) और ऑटो-सेव इवेंट लिसनर्स
+    // Live metrics (Word/Char count) and auto-save event listeners
     const editorBody = document.getElementById('editor-body');
     const editorHeadline = document.getElementById('editor-headline');
     const editorSubheadline = document.getElementById('editor-subheadline');
@@ -177,15 +220,21 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// भाषा बदलने का मुख्य फ़ंक्शन (Main Change Language Function)
+// Main Change Language Function
 function changeLanguage(lang) {
     localStorage.setItem('selected_language', lang);
-    const t = indexTranslations[lang] || indexTranslations.mr;
+    const t = indexTranslations[lang] || indexTranslations.en;
 
     const setElemText = (id, text) => {
         const elem = document.getElementById(id);
         if (elem) elem.innerText = text;
     };
+
+    // Dynamic Brand Logo update (span innerHTML)
+    const logoElem = document.getElementById('brand-logo-text');
+    if (logoElem) {
+        logoElem.innerHTML = t.brandLogoText;
+    }
 
     setElemText('head-title', t.headTitle);
     setElemText('header-badge', t.headerBadge);
@@ -236,7 +285,7 @@ function changeLanguage(lang) {
     setElemText('lbl-word-count', t.lblWordCount);
     setElemText('lbl-char-count', t.lblCharCount);
 
-    // आर्टिकल्स की सूची और स्टेटस बैज रिफ्रेश करें
+    // Refresh article list and status badges
     renderArticlesList();
     const currentArticle = articles.find(a => a.id === activeArticleId);
     if (currentArticle) {
@@ -244,7 +293,7 @@ function changeLanguage(lang) {
     }
 }
 
-// दूसरे टैब/पेज से डेटा बदलने पर सिंक (Sync) लिसनर
+// Sync Listener when data changes from another tab/page
 window.addEventListener('storage', (e) => {
     if (e.key === 'punya_articles') {
         if (typeof getStoredArticles === 'function') {
@@ -259,7 +308,7 @@ window.addEventListener('storage', (e) => {
     }
 });
 
-// आर्टिकल्स की लिस्ट रेंडर करें
+// Render list of articles
 function renderArticlesList(dataToRender = null) {
     const container = document.getElementById('articles-container');
     if (!container) return;
@@ -314,14 +363,14 @@ function renderArticlesList(dataToRender = null) {
     });
 }
 
-// लिस्ट में से आर्टिकल सेलेक्ट करें
+// Select an article from list
 function selectArticle(id) {
     activeArticleId = id;
     renderArticlesList();
     loadArticleToEditor(id);
 }
 
-// सेलेक्ट किए गए आर्टिकल को एडिटर में लोड करें
+// Load selected article into editor
 function loadArticleToEditor(id) {
     const article = articles.find(a => a.id === id);
     if (!article) return;
@@ -343,7 +392,15 @@ function loadArticleToEditor(id) {
     if (bodyElem) bodyElem.innerHTML = article.content || '';
     if (reporterElem) reporterElem.innerText = article.reporter || '';
     if (sourceElem) sourceElem.innerHTML = `${t.lblSourceRoute} <span class="text-blue-600 font-medium">${article.source || t.mailSource}</span>`;
-    if (timeElem) timeElem.innerText = `${article.time || ''} | २० सप्टें`;
+    
+    // Sync dynamic date & time in editor
+    if (timeElem) {
+        const now = new Date();
+        const monthsEnglishShort = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        const currentDateStr = `${now.getDate()} ${monthsEnglishShort[now.getMonth()]}`;
+        timeElem.innerText = `${article.time || '10:45 AM'} | ${article.date || currentDateStr}`;
+    }
+
     if (categoryElem) categoryElem.innerText = article.category || '';
     if (captionElem) captionElem.value = article.caption || '';
 
@@ -360,7 +417,7 @@ function loadArticleToEditor(id) {
     calculateMetrics();
 }
 
-// एडिटर में बदलाव होते ही LocalStorage में ऑटो-सेव करें
+// Auto-save changes to LocalStorage on input
 function autoSaveCurrentArticle() {
     const article = articles.find(a => a.id === activeArticleId);
     if (!article) return;
@@ -381,14 +438,14 @@ function autoSaveCurrentArticle() {
         saveArticles(articles);
     }
 
-    // लिस्ट में टाइटल अपडेट दिखाने के लिए रेंडर करें
+    // Render list to show live headline updates
     const activeCardTitle = document.querySelector(`.article-card.active h4`);
     if (activeCardTitle) {
         activeCardTitle.innerText = headlineText || t.untitledNews;
     }
 }
 
-// शब्द (Word) और अक्षर (Character) की गणना
+// Word and Character Calculation
 function calculateMetrics() {
     const bodyText = document.getElementById('editor-body')?.innerText || "";
     const headlineText = document.getElementById('editor-headline')?.value || "";
@@ -404,7 +461,7 @@ function calculateMetrics() {
     if (charCountElem) charCountElem.innerText = chars;
 }
 
-// बातमी स्टेटस अपडेट करें (Approve, Revision, Reject)
+// Update News Status (Approve, Revision, Reject)
 function updateStatus(newStatus) {
     const article = articles.find(a => a.id === activeArticleId);
     if (article) {
@@ -428,7 +485,7 @@ function updateStatus(newStatus) {
     }
 }
 
-// स्टेटस बैज (Status Badge) का UI अपडेट करें
+// Update Status Badge UI
 function updateStatusBadgeUI(status) {
     const badge = document.getElementById('current-status-badge');
     if (!badge) return;
@@ -450,7 +507,7 @@ function updateStatusBadgeUI(status) {
     }
 }
 
-// साइडबार के काउंट बैज अपडेट करें
+// Update Sidebar Count Badges
 function updateBadges() {
     const setBadge = (id, count) => {
         const elem = document.getElementById(id);
@@ -467,7 +524,7 @@ function updateBadges() {
     setBadge('badge-mailbox', articles.filter(a => a.source && (a.source.toLowerCase().includes('mail') || a.source.toLowerCase().includes('email'))).length);
 }
 
-// खोजें (Search Articles)
+// Search Articles
 function searchArticles() {
     const searchInput = document.getElementById('search-input');
     if (!searchInput) return;
@@ -488,7 +545,7 @@ function searchArticles() {
     renderArticlesList(filtered);
 }
 
-// स्टेटस / मेलबॉक्स के अनुसार फिल्टर करें
+// Filter by Status / Mailbox
 function filterArticles(type, btn) {
     currentFilter = type;
     document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active', 'bg-red-50', 'text-red-600', 'bg-slate-800'));
@@ -496,7 +553,7 @@ function filterArticles(type, btn) {
     renderArticlesList();
 }
 
-// कैटेगरी के अनुसार फिल्टर करें
+// Filter by Category
 function filterCategory(category) {
     if (category === 'all') {
         renderArticlesList();
@@ -506,13 +563,13 @@ function filterCategory(category) {
     }
 }
 
-// टेक्स्ट फॉर्मेटिंग (Rich Text Editor Commands)
+// Text Formatting (Rich Text Editor Commands)
 function execCmd(command, value = null) {
     document.execCommand(command, false, value);
     autoSaveCurrentArticle();
 }
 
-// टोस्ट नोटिफिकेशन दिखाएं
+// Show Toast Notification
 function showToast(message) {
     const toast = document.getElementById('toast');
     const toastMsg = document.getElementById('toast-message');

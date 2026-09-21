@@ -4,7 +4,7 @@
 
 let masterData = [];
 
-// भाषा डिक्शनरी (Language Translations Dictionary for Master Sheet)
+// Language Translations Dictionary for Master Sheet
 const masterTranslations = {
     mr: {
         headTitle: "पुण्य नगरी - मुख्य बातमी मास्टर ट्रॅकर (Master Control Sheet)",
@@ -100,28 +100,29 @@ const masterTranslations = {
     }
 };
 
-// वर्तमान भाषा प्राप्त करें (Get current language)
+// Get current selected language
 function getCurrentLang() {
-    return localStorage.getItem('selected_language') || 'mr';
+    return localStorage.getItem('selected_language') || 'en';
 }
 
+// Get translation dataset for current language
 function getTranslation() {
-    return masterTranslations[getCurrentLang()] || masterTranslations.mr;
+    return masterTranslations[getCurrentLang()] || masterTranslations.en;
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    // भाषा ड्रॉपडाउन वैल्यू सेट करें और UI अपडेट करें
+    // Set language dropdown value and update UI
     const savedLang = getCurrentLang();
     const langSelect = document.getElementById('lang-select');
     if (langSelect) {
         langSelect.value = savedLang;
     }
 
-    // LocalStorage मधून डेटा लोड करा
+    // Load data from LocalStorage
     loadMasterData();
     changeLanguage(savedLang);
 
-    // फिल्टर आणि शोध इव्हेंट लिस्टनर्स (Event Listeners)
+    // Filter and Search Event Listeners
     const searchInput = document.getElementById('master-search');
     const statusSelect = document.getElementById('filter-status');
     const categorySelect = document.getElementById('filter-category');
@@ -131,10 +132,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (categorySelect) categorySelect.addEventListener('change', applyMasterFilters);
 });
 
-// भाषा बदलने का मुख्य फ़ंक्शन (Change Language Function)
+// Main Language Change Function
 function changeLanguage(lang) {
     localStorage.setItem('selected_language', lang);
-    const t = masterTranslations[lang] || masterTranslations.mr;
+    const t = masterTranslations[lang] || masterTranslations.en;
 
     const setElemText = (id, text) => {
         const elem = document.getElementById(id);
@@ -183,12 +184,12 @@ function changeLanguage(lang) {
     setElemText('th-status', t.thStatus);
     setElemText('th-actions', t.thActions);
 
-    // मास्टर टेबल को पुनः रेंडर करें
+    // Re-render master table with updated language labels
     applyMasterFilters();
 }
 
 /**
- * LocalStorage मधून आर्टिकल्स डेटा लोड करा
+ * Load articles data from LocalStorage
  */
 function loadMasterData() {
     if (typeof getStoredArticles === 'function') {
@@ -202,7 +203,7 @@ function loadMasterData() {
     updateOverviewStats();
 }
 
-// स्टोरेज चेंज इवेंट (Storage Sync Event Listener)
+// Storage Sync Event Listener
 window.addEventListener('storage', (e) => {
     if (e.key === 'punya_articles') {
         loadMasterData();
@@ -214,7 +215,7 @@ window.addEventListener('storage', (e) => {
 });
 
 /**
- * मास्टर टेबलमध्ये डेटा रेंडर करा
+ * Render data into Master Table
  */
 function renderMasterTable(data) {
     const tbody = document.getElementById('master-table-body');
@@ -232,7 +233,7 @@ function renderMasterTable(data) {
         const tr = document.createElement('tr');
         tr.className = "hover:bg-slate-50 transition border-b border-gray-100";
 
-        // स्टेटस बॅज आणि लेबल ठरवा
+        // Determine status badge classes and label
         let statusClass = 'bg-amber-100 text-amber-800';
         let statusLabel = t.statusPendingLabel;
         
@@ -247,12 +248,12 @@ function renderMasterTable(data) {
             statusLabel = t.statusRejectedLabel; 
         }
 
-        // शब्दसंख्या (Word Count) मोजा
+        // Calculate Word Count
         const wordCount = row.wordCount || (row.content ? row.content.trim().split(/\s+/).filter(w => w.length > 0).length : 200);
 
         tr.innerHTML = `
             <td class="py-3 px-4 font-bold text-gray-900">#PN-${1000 + Number(row.id)}</td>
-            <td class="py-3 px-4 text-xs font-semibold text-gray-600">${row.time || '१०:०० AM'} | २० सप्टें</td>
+            <td class="py-3 px-4 text-xs font-semibold text-gray-600">${row.time || '10:00 AM'} | Sep 20</td>
             <td class="py-3 px-4 font-bold text-gray-800 max-w-xs truncate" title="${escapeHtml(row.headline || '')}">${row.headline || ''}</td>
             <td class="py-3 px-4 text-gray-600">${row.reporter || t.defaultReporter} <br><span class="text-[11px] text-gray-400">${row.source || t.defaultDesk}</span></td>
             <td class="py-3 px-4 font-medium text-red-600">${row.category || t.defaultCategory}</td>
@@ -270,7 +271,7 @@ function renderMasterTable(data) {
 }
 
 /**
- * मुख्य आकडेवारी (Top Metrics Counter) अपडेट करा
+ * Update Top Metrics Counter
  */
 function updateOverviewStats() {
     const statTotal = document.getElementById('stat-total');
@@ -287,7 +288,7 @@ function updateOverviewStats() {
 }
 
 /**
- * सर्च आणि फिल्टर लागू करा
+ * Apply Search and Filter Operations
  */
 function applyMasterFilters() {
     const searchVal = document.getElementById('master-search')?.value.toLowerCase().trim() || '';
@@ -310,14 +311,14 @@ function applyMasterFilters() {
 }
 
 /**
- * मुख्य एडिटर पेजवर बातमी उघडा
+ * Open selected article in the Main Editor Page
  */
 function openInEditor(id) {
     window.location.href = `index.html?id=${id}`;
 }
 
 /**
- * डेटा CSV (Excel Sheet) मध्ये डाउनलोड करा
+ * Download Master Data as CSV (Excel Sheet)
  */
 function exportTableToCSV() {
     const t = getTranslation();
@@ -337,7 +338,7 @@ function exportTableToCSV() {
         csv += `"#PN-${1000 + Number(r.id)}","${r.time || ''}","${headlineText}","${r.reporter || ''}","${r.source || ''}","${r.category || ''}","${wordCount}","${assignedPage}","${r.status || ''}"\n`;
     });
 
-    // UTF-8 BOM जोडले आहे जेणेकरून मराठी मजकूर Excel मध्ये योग्य दिसेल
+    // Added UTF-8 BOM so Marathi & Special characters display correctly in Excel
     const blob = new Blob(["\ufeff" + csv], { type: 'text/csv;charset=utf-8;' });
     const link = document.createElement('a');
     link.href = URL.createObjectURL(blob);
@@ -348,7 +349,7 @@ function exportTableToCSV() {
 }
 
 /**
- * HTML स्ट्रिंग स्केप करण्यासाठी हेल्पर फंक्शन
+ * Helper function to escape HTML special characters
  */
 function escapeHtml(text) {
     return text
