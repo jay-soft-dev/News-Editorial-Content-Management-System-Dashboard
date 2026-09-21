@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="head-title">पुण्य नगरी - मुख्य बातमी मास्टर ट्रॅकर (Master Control Sheet)</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts for Marathi -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@300;400;500;600;700;800&family=Yatra+One&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="master-style.css">
+</head>
+<body class="bg-gray-100 font-mukta text-gray-800 min-h-screen flex flex-col">
+
+    <!-- Top Navigation Header -->
+    <header class="bg-slate-900 text-white px-6 py-3 flex flex-wrap items-center justify-between gap-4 shadow-md">
+        <div class="flex items-center gap-3">
+            <span class="brand-font text-3xl font-extrabold text-red-500 tracking-wider">पुण्य<span class="text-amber-400">नगरी</span></span>
+            <span id="header-badge" class="bg-red-600 text-white text-xs font-bold px-2.5 py-1 rounded uppercase tracking-wide">मास्टर कंट्रोल शीट (Data Grid)</span>
+        </div>
+        
+        <div class="flex items-center gap-4 text-sm flex-wrap">
+            <!-- Language Selector Dropdown -->
+            <div class="flex items-center gap-2 bg-slate-800 px-3 py-1.5 rounded-lg border border-slate-700">
+                <i class="fa-solid fa-language text-amber-400"></i>
+                <select id="lang-select" onchange="changeLanguage(this.value)" class="bg-transparent text-white text-xs font-bold focus:outline-none cursor-pointer">
+                    <option value="mr" class="bg-slate-800 text-white">मराठी (Marathi)</option>
+                    <option value="en" class="bg-slate-800 text-white">English</option>
+                </select>
+            </div>
+
+            <div class="flex items-center gap-2 bg-slate-800 px-3 py-1.5 rounded-lg border border-slate-700">
+                <i class="fa-solid fa-envelope text-amber-400"></i>
+                <span id="email-server-text">इमेल सर्व्हर: <strong id="status-active-text" class="text-emerald-400">सक्रिय (Auto Sync On)</strong></span>
+            </div>
+
+            <a href="index.html" class="bg-red-600 hover:bg-red-700 text-white font-bold px-3.5 py-1.5 rounded-lg transition flex items-center gap-2 text-xs shadow">
+                <i class="fa-solid fa-newspaper"></i> <span id="btn-editor-page">संपादक एडिटर पेजवर जा</span>
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 p-6 space-y-6">
+
+        <!-- Top Overview Metric Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-4">
+            <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm flex items-center justify-between">
+                <div>
+                    <p id="lbl-stat-total" class="text-xs font-bold text-gray-400 uppercase">एकूण प्राप्त बातम्या</p>
+                    <h3 class="text-2xl font-black text-gray-800 mt-1" id="stat-total">०</h3>
+                </div>
+                <div class="w-10 h-10 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-lg"><i class="fa-solid fa-inbox"></i></div>
+            </div>
+
+            <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm flex items-center justify-between">
+                <div>
+                    <p id="lbl-stat-pending" class="text-xs font-bold text-gray-400 uppercase">मंजुरीसाठी प्रलंबित</p>
+                    <h3 class="text-2xl font-black text-amber-600 mt-1" id="stat-pending">०</h3>
+                </div>
+                <div class="w-10 h-10 rounded-full bg-amber-50 text-amber-600 flex items-center justify-center font-bold text-lg"><i class="fa-solid fa-clock"></i></div>
+            </div>
+
+            <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm flex items-center justify-between">
+                <div>
+                    <p id="lbl-stat-approved" class="text-xs font-bold text-gray-400 uppercase">मंजूर (प्रिंटसाठी तयार)</p>
+                    <h3 class="text-2xl font-black text-emerald-600 mt-1" id="stat-approved">०</h3>
+                </div>
+                <div class="w-10 h-10 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold text-lg"><i class="fa-solid fa-circle-check"></i></div>
+            </div>
+
+            <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm flex items-center justify-between">
+                <div>
+                    <p id="lbl-stat-revision" class="text-xs font-bold text-gray-400 uppercase">दुरुस्तीसाठी पाठवले</p>
+                    <h3 class="text-2xl font-black text-orange-600 mt-1" id="stat-revision">०</h3>
+                </div>
+                <div class="w-10 h-10 rounded-full bg-orange-50 text-orange-600 flex items-center justify-center font-bold text-lg"><i class="fa-solid fa-arrows-rotate"></i></div>
+            </div>
+
+            <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm flex items-center justify-between">
+                <div>
+                    <p id="lbl-stat-rejected" class="text-xs font-bold text-gray-400 uppercase">अमान्य / नाकारलेले</p>
+                    <h3 class="text-2xl font-black text-red-600 mt-1" id="stat-rejected">०</h3>
+                </div>
+                <div class="w-10 h-10 rounded-full bg-red-50 text-red-600 flex items-center justify-center font-bold text-lg"><i class="fa-solid fa-circle-xmark"></i></div>
+            </div>
+        </div>
+
+        <!-- Filter & Control Toolbar -->
+        <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm flex flex-wrap items-center justify-between gap-4">
+            <div class="flex flex-wrap items-center gap-3 flex-1 min-w-[300px]">
+                <div class="relative flex-1 min-w-[200px]">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-gray-400 text-sm"></i>
+                    <input type="text" id="master-search" placeholder="आयडी, बातमीचे नाव, रिपोर्टर किंवा शहरावरून शोधा..." class="w-full pl-9 pr-4 py-2 bg-gray-50 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-red-500 focus:outline-none">
+                </div>
+                <select id="filter-status" class="bg-gray-50 border border-gray-300 text-sm rounded-lg p-2 font-semibold text-gray-700 focus:ring-2 focus:ring-red-500">
+                    <option value="all" id="opt-status-all">सर्व स्टेटस (All Status)</option>
+                    <option value="pending" id="opt-status-pending">प्रलंबित (Pending)</option>
+                    <option value="approved" id="opt-status-approved">मंजूर (Approved)</option>
+                    <option value="revision" id="opt-status-revision">दुरुस्ती (Revision)</option>
+                    <option value="rejected" id="opt-status-rejected">अमान्य (Rejected)</option>
+                </select>
+                <select id="filter-category" class="bg-gray-50 border border-gray-300 text-sm rounded-lg p-2 font-semibold text-gray-700 focus:ring-2 focus:ring-red-500">
+                    <option value="all" id="opt-cat-all">सर्व विभाग (All Category)</option>
+                    <option value="स्थानिक" id="opt-cat-pune">स्थानिक / पुणे</option>
+                    <option value="राजकारण" id="opt-cat-politics">महाराष्ट्र / राजकारण</option>
+                    <option value="गुन्हेगारी" id="opt-cat-crime">गुन्हेगारी</option>
+                    <option value="क्रीडा" id="opt-cat-sports">क्रीडा</option>
+                </select>
+            </div>
+
+            <div class="flex items-center gap-2">
+                <button onclick="exportTableToCSV()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-4 py-2 rounded-lg text-sm transition flex items-center gap-2 shadow">
+                    <i class="fa-solid fa-file-excel"></i> <span id="btn-export-csv">Excel (CSV) डाउनलोड करा</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Excel / Grid Layout Table -->
+        <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-sm text-gray-700 border-collapse">
+                    <thead class="bg-slate-800 text-slate-200 text-xs font-bold uppercase tracking-wider">
+                        <tr>
+                            <th id="th-id" class="py-3 px-4 border-b border-slate-700">बातमी ID</th>
+                            <th id="th-time" class="py-3 px-4 border-b border-slate-700">आलेली वेळ & दिनांक</th>
+                            <th id="th-headline" class="py-3 px-4 border-b border-slate-700">बातमीचे नाव (Headline)</th>
+                            <th id="th-reporter" class="py-3 px-4 border-b border-slate-700">रिपोर्टर / सोर्स (Email)</th>
+                            <th id="th-category" class="py-3 px-4 border-b border-slate-700">विभाग</th>
+                            <th id="th-words" class="py-3 px-4 border-b border-slate-700">शब्दसंख्या</th>
+                            <th id="th-page" class="py-3 px-4 border-b border-slate-700">नियोजित पान</th>
+                            <th id="th-status" class="py-3 px-4 border-b border-slate-700">सध्याचे स्टेटस</th>
+                            <th id="th-actions" class="py-3 px-4 border-b border-slate-700 text-center">कृती (Actions)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="master-table-body" class="divide-y divide-gray-200 bg-white">
+                        <!-- Dynamic Grid Rows Will Load Here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-5 right-5 bg-slate-900 text-white px-5 py-3 rounded-xl shadow-2xl transition-all duration-300 opacity-0 pointer-events-none flex items-center gap-3 border border-slate-700 z-50">
+        <i class="fa-solid fa-circle-info text-amber-400 text-lg"></i>
+        <span id="toast-message" class="text-sm font-semibold">नोटिफिकेशन</span>
+    </div>
+
+    <!-- Master Script Imports -->
+    <script src="data.js"></script>
+    <script src="master-script.js"></script>
+</body>
+</html>
